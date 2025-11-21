@@ -1,0 +1,50 @@
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter two primes:");
+        int p = sc.nextInt(), q = sc.nextInt();
+
+        System.out.println("Enter message:");
+        String msg = sc.next();
+        int n = p * q;
+        int phi = (p - 1) * (q - 1);
+
+        int e = 2;
+        while (phi % e == 0) e++;
+
+        int d = 2;
+        while ((d * e) % phi != 1) d++;
+
+        System.out.println("\nPublic Key = (" + e + ", " + n + ")");
+        System.out.println("Private Key = (" + d + ", " + n + ")");
+
+        int L = msg.length();
+        int[] ct = new int[L];
+        int[] pt = new int[L];
+
+        System.out.println("\nCipher Texts:");
+        for (int i = 0; i < L; i++) {
+            int m = msg.charAt(i) - 96;
+            ct[i] = (int) Math.pow(m, e) % n;
+            System.out.println(ct[i]);
+        }
+
+        System.out.print("\nTransmitted: ");
+        for (int c : ct) System.out.print((char) (c + 98));
+
+        System.out.println("\n\nDecryption:");
+        for (int i = 0; i < L; i++) {
+            pt[i] = (int) Math.pow(ct[i], d) % n;
+            System.out.println(pt[i]);
+        }
+
+        System.out.print("\nDecrypted Message: ");
+        for (int ptxt : pt) System.out.print((char) (ptxt + 96));
+        
+        System.out.println();
+        sc.close();
+    }
+}
